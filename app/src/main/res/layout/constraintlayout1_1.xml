@@ -12,7 +12,9 @@
         android:layout_height="match_parent"
         android:text="Button"
         app:layout_constraintEnd_toStartOf="@+id/imageView"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        android:background="#ad512f"
+        />
 
     <ImageView
         android:id="@+id/imageView"
@@ -20,7 +22,9 @@
         android:layout_height="match_parent"
         app:layout_constraintEnd_toStartOf="@+id/textView"
         app:layout_constraintStart_toEndOf="@id/button"
-        tools:srcCompat="@tools:sample/avatars" />
+        tools:srcCompat="@tools:sample/avatars"
+        android:background="#ad9e2b"
+        />
 
     <TextView
         android:id="@+id/textView"
@@ -29,5 +33,7 @@
         android:gravity="center"
         android:text="TextView"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/imageView" />
+        app:layout_constraintStart_toEndOf="@id/imageView"
+        android:background="#2bad47"
+        />
 </androidx.constraintlayout.widget.ConstraintLayout>

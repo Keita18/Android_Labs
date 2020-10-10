@@ -8,6 +8,7 @@
         android:layout_width="fill_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
+        android:background="#ff1900"
         android:text="button" />
 
     <TextView
@@ -15,6 +16,7 @@
         android:layout_width="fill_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
+        android:background="#403635"
         android:text="TextView" />
 
     <ImageView
@@ -22,8 +24,10 @@
         android:layout_width="fill_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
+        android:background="#2cb831"
         android:text="ImageView" />
     <Space
         android:layout_width="match_parent"
+        android:background="#fcfcfc"
         android:layout_height="150dp"/>
 </LinearLayout>
