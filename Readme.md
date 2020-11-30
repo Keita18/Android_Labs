@@ -1,4 +1,4 @@
-﻿
+
 # Лабораторная работа №3. Lifecycle компоненты. Навигация в приложении.  
 ## Цели  
 * Ознакомиться с методом обработки жизненного цикла activity/fragment при помощи Lifecycle-Aware компонентов    
@@ -74,4 +74,485 @@ A -> B -> C -> D
 мы создали MainActivity, в которой находится NavController, который помогает переходить между activity.Nav_host_fragment является контейнером для фрагментов и они переключаются внутри него.
 Чтобы переключаться между фрагментами нужно заполнить nav_graph, а также указать переходы между фрагментами. 
 
+#### Task2.firstActivity
+```csharp
+class FirstActivity : AppCompatActivity() {
+    private lateinit var binding: ActivityFirstBinding
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        binding = ActivityFirstBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+
+        println("FirstActivity::Create()")
+
+        binding.activityFirstToSecondBtn.setOnClickListener {
+            val secondActivityIntent = Intent(this, SecondActivity::class.java)
+            startActivity(secondActivityIntent)
+        }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        val inflater: MenuInflater = menuInflater
+        inflater.inflate(R.menu.menu, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.about_button -> {
+                startActivity(Intent(this, AboutActivity::class.java))
+                true
+            }
+            else -> return super.onOptionsItemSelected(item)
+        }
+    }
+
+
+    override fun onStart() {
+        super.onStart()
+        println("FirstActivity::onStart()")
+    }
+
+    override fun onResume() {
+        super.onResume()
+        println("FirstActivity::onResume()")
+    }
+
+    override fun onPause() {
+        super.onPause()
+        println("FirstActivity::onPause()")
+    }
+
+    override fun onStop() {
+        super.onStop()
+        println("FirstActivity::onStop()")
+    }
+
+    override fun onRestart() {
+        super.onRestart()
+        println("FirstActivity::onRestart()")
+
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        println("FirstActivity::onDestroy()")
+    }
+}
+``` 
+#### Task2.SecondActivity
+```csharp
+class SecondActivity: AppCompatActivity() {
+    private lateinit var binding: ActivitySecondBinding
+    val THIRD_ACTIVITY_REQUEST_CODE = 42
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        binding = ActivitySecondBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+
+        println("SecondActivity::onCreate()")
+
+
+        binding.activitySecondToFirstBtn.setOnClickListener { finish() }
+        binding.activitySecondToThirdBtn.setOnClickListener {
+
+            val thirdActivityIntent = Intent(this, ThirdActivity::class.java)
+
+            startActivityForResult(thirdActivityIntent, THIRD_ACTIVITY_REQUEST_CODE)
+        }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        if (THIRD_ACTIVITY_REQUEST_CODE == requestCode && Activity.RESULT_OK == resultCode) {
+
+            val backToFirstActivity = data!!.getBooleanExtra(ThirdActivity().EXTRA_BACK_TO_FIRST, false)
+            if (backToFirstActivity) finish()
+        }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        val inflater: MenuInflater = menuInflater
+        inflater.inflate(R.menu.menu, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.about_button -> {
+                startActivity(Intent(this, AboutActivity::class.java))
+                true
+            }
+            else -> return super.onOptionsItemSelected(item)
+        }
+    }
+
+
+    override fun onStart() {
+        super.onStart()
+        println("SecondActivity::onStart()")
+    }
+
+    override fun onResume() {
+        super.onResume()
+        println("SecondActivity::onResume()")
+    }
+
+    override fun onPause() {
+        super.onPause()
+        println("SecondActivity::onPause()")
+    }
+
+    override fun onStop() {
+        super.onStop()
+        println("SecondActivity::onStop()")
+    }
+
+    override fun onRestart() {
+        super.onRestart()
+        println("SecondActivity::onRestart()")
+
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        println("SecondActivity::onDestroy()")
+    }
+}
+
+```
+#### Task2.ThirdActivity
+```csharp
+class ThirdActivity: AppCompatActivity() {
+    private lateinit var binding: ActivityThirdBinding
+    var BACK_TO_FIRST = false
+    val EXTRA_BACK_TO_FIRST = "EXTRA_BACK_TO_FIRST"
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        binding = ActivityThirdBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+
+        println("ThirdActivity::onCreate()")
+
+        binding.activityThirdToFirstBtn.setOnClickListener {
+
+            BACK_TO_FIRST = true
+            // End the activity
+            val intent = Intent()
+            intent.putExtra(EXTRA_BACK_TO_FIRST, BACK_TO_FIRST)
+            setResult(Activity.RESULT_OK, intent)
+            finish()
+        }
+        binding.activityThirdToSecondBtn.setOnClickListener { finish() }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        val inflater: MenuInflater = menuInflater
+        inflater.inflate(R.menu.menu, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.about_button -> {
+                startActivity(Intent(this, AboutActivity::class.java))
+                true
+            }
+            else -> return super.onOptionsItemSelected(item)
+        }
+    }
+
+    override fun onStart() {
+        super.onStart()
+        println("ThirdActivity::onStart()")
+    }
+
+    override fun onResume() {
+        super.onResume()
+        println("ThirdActivity::onResume()")
+    }
+
+    override fun onPause() {
+        super.onPause()
+        println("ThirdActivity::onPause()")
+    }
+
+    override fun onStop() {
+        super.onStop()
+        println("ThirdActivity::onStop()")
+    }
+
+    override fun onRestart() {
+        super.onRestart()
+        println("ThirdActivity::onRestart()")
+
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        println("ThirdActivity::onDestroy()")
+    }
+}
+```
+#### Task2.AboutActivity
+
+```csharp
+class AboutActivity: AppCompatActivity() {
+    private lateinit var binding: ActivityAboutBinding
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        binding = ActivityAboutBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+        println("AboutActivity::onCreate()")
+
+    }
+
+
+    override fun onStart() {
+        super.onStart()
+        println("AboutActivity::onStart()")
+    }
+
+    override fun onResume() {
+        super.onResume()
+        println("AboutActivity::onResume()")
+    }
+
+    override fun onPause() {
+        super.onPause()
+        println("AboutActivity::onPause()")
+    }
+
+    override fun onStop() {
+        super.onStop()
+        println("AboutActivity::onStop()")
+    }
+
+    override fun onRestart() {
+        super.onRestart()
+        println("AboutActivity::onRestart()")
+
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        println("AboutActivity::onDestroy()")
+    }
+}
+```
+
+#### Task3.thirdActivity
+```csharp
+class ThirdActivity: AppCompatActivity() {
+    private lateinit var binding: ActivityThirdBinding
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        binding = ActivityThirdBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+
+        println("ThirdActivityTask3::onCreate()")
+
+        binding.activityThirdToFirstBtn.setOnClickListener {
+
+            val firstActivityIntent = Intent(this, FirstActivity::class.java)
+            startActivity(firstActivityIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP))
+        }
+        binding.activityThirdToSecondBtn.setOnClickListener { finish() }
+    }
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        val inflater: MenuInflater = menuInflater
+        inflater.inflate(R.menu.menu, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.about_button -> {
+                startActivity(Intent(this, AboutActivity::class.java))
+                true
+            }
+            else -> return super.onOptionsItemSelected(item)
+        }
+    }
+    override fun onStart() {
+        super.onStart()
+        println("ThirdActivityTask3::onStart()")
+    }
+
+    override fun onResume() {
+        super.onResume()
+        println("ThirdActivityTask3::onResume()")
+    }
+
+    override fun onPause() {
+        super.onPause()
+        println("ThirdActivityTask3::onPause()")
+    }
+
+    override fun onStop() {
+        super.onStop()
+        println("ThirdActivityTask3::onStop()")
+    }
+
+    override fun onRestart() {
+        super.onRestart()
+        println("ThirdActivityTask3::onRestart()")
+
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        println("ThirdActivityTask3::onDestroy()")
+    }
+} 
+```
+
+#### Task4.thirdActivity
+
+```csharp
+class D: AppCompatActivity() {
+    private lateinit var binding: ActivityFourthBinding
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        println("Activity B::onCreate()")
+        binding = ActivityFourthBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+
+        binding.activityDToABtn.setOnClickListener {
+            startActivity(Intent(this, A::class.java).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP))
+        }
+
+        binding.activityDToBBtn.setOnClickListener{
+            startActivity(Intent(this, B::class.java).addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT))
+        }
+
+        binding.activityDToCBtn.setOnClickListener {
+            startActivity(Intent(this, D::class.java).addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY))
+        }
+    }
+
+    override fun onStart() {
+        super.onStart()
+        println("Activity D::onStart()")
+    }
+
+    override fun onResume() {
+        super.onResume()
+        println("Activity D::onResume()")
+    }
+
+    override fun onPause() {
+        super.onPause()
+        println("Activity D::onPause()")
+    }
+
+    override fun onStop() {
+        super.onStop()
+        println("Activity D::onStop()")
+    }
+
+    override fun onRestart() {
+        super.onRestart()
+        println("Activity D::onRestart()")
+
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        println("Activity D::onDestroy()")
+    }
+} 
+```
+#### Task5.MainActivity
+```csharp
+class MainActivity: AppCompatActivity() {
+    private lateinit var binding: ActivityMainBinding
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        val inflater: MenuInflater = menuInflater
+        inflater.inflate(R.menu.menu, menu)
+        return true
+    }
+
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.about_button -> {
+                startActivity(Intent(this, AboutActivity::class.java))
+                true
+            }
+            else -> return super.onOptionsItemSelected(item)
+        }
+    }
+}
+```
+#### Task5.Fragment1
+```csharp
+class Fragment1 : Fragment() {
+    private lateinit var binding: Fragment1Binding
+
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?): View? {
+        binding = Fragment1Binding.inflate(layoutInflater)
+
+        binding.fragment1To2.setOnClickListener {
+            view?.findNavController()?.navigate(R.id.action_firstFragment_to_secondFragment)
+        }
+        return binding.root
+    }
+}
+```
+#### Task5.Fragment2
+```csharp
+class Fragment2 : Fragment() {
+
+    private lateinit var binding: Fragment2Binding
+
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?): View? {
+        binding = Fragment2Binding.inflate(layoutInflater)
+        binding.fragment2To1.setOnClickListener {
+            view?.findNavController()?.navigate(R.id.action_secondFragment_to_firstFragment)
+        }
+        binding.fragment2To3.setOnClickListener {
+            view?.findNavController()?.navigate(R.id.action_secondFragment_to_thirdFragment)
+        }
+        return binding.root
+    }
+}
+```
+#### Task5.Fragment3
+```csharp
+class Fragment3 : Fragment() {
+
+    private lateinit var binding: Fragment3Binding
+
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?): View? {
+        binding = Fragment3Binding.inflate(layoutInflater)
+
+        binding.fragment3To1.setOnClickListener {
+            view?.findNavController()?.navigate(R.id.action_thirdFragment_to_firstFragment)
+        }
+        binding.fragment3To2.setOnClickListener {
+            view?.findNavController()?.navigate(R.id.action_thirdFragment_to_secondFragment)
+        }
+        return binding.root
+    }
+}
+```
