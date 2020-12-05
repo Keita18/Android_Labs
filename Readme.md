@@ -104,7 +104,7 @@ RecyclerView позволяет легко и эффективно отобра�
 #### Реализовать RecyclerView
 Теперь давайте изменим layout нашего Activity Mainactivity, чтобы добавить к нему RecyclerView.
 
-```
+```csharp
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
@@ -124,7 +124,7 @@ RecyclerView позволяет легко и эффективно отобра�
 Затем мы создадим XML-макет, представляющий каждый элемент (каждую строку) нашего RecyclerView.
 
 `biblib.xml`
-```
+```csharp
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
@@ -167,7 +167,7 @@ RecyclerView позволяет легко и эффективно отобра�
 здесь `LinearLayoutManager`, но можно выбрать другой (`GridLayoutManager`, `StaggeredGridLayoutManager`)
 
 `MainActivity`
-```
+```csharp
 class MainActivity : AppCompatActivity() {
     private var adapter: Adapter? = null
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -203,7 +203,7 @@ class MainActivity : AppCompatActivity() {
 
 `onBindViewHolder()` Этот метод вызывается для каждой из видимых строк, отображаемых в нашем RecyclerView.  Обычно здесь обновляется их внешний вид.
 
-```
+```csharp
 class Adapter(inputStream: InputStream): RecyclerView.Adapter<Adapter.ViewHolder>() {
     private var database: BibDatabase
 
@@ -241,7 +241,7 @@ class Adapter(inputStream: InputStream): RecyclerView.Adapter<Adapter.ViewHolder
 #### Задача 3. Бесконечный список.
 Для получения бесконечного списка сделаем так, чтобы после последней записи шла первая, для этого сделаем так чтобы метод выдающий количество записей выдавал просто большое число и в методе где получаем запись будем брать запись по остатку от деления всего количества записей.
 
-```
+```csharp
     override fun getItemCount(): Int {
         return Int.MAX_VALUE
     }
