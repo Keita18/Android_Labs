@@ -15,7 +15,6 @@ class AboutActivity: AppCompatActivity() {
 
     }
 
-
     override fun onStart() {
         super.onStart()
         println("AboutActivity::onStart()")

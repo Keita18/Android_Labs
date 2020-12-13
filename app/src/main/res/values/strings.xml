@@ -19,5 +19,6 @@
     <string name="welcome_what_s_your_name">Welcome! what\'s your name?</string>
     <string name="please_type_your_name">Please type your name</string>
     <string name="fragment_2">Fragment 2</string>
+    <string name="won">You Won</string>
 
 </resources>

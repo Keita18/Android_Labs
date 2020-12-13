@@ -11,18 +11,20 @@ import keita.`as`.lab3.databinding.ActivityFirstBinding
 
 class FirstActivity : AppCompatActivity() {
     private lateinit var binding: ActivityFirstBinding
+    open var check = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityFirstBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        println("FirstActivity::Create()")
+        println("FirstActivity::OnCreate()")
 
         binding.activityFirstToSecondBtn.setOnClickListener {
             val secondActivityIntent = Intent(this, SecondActivity::class.java)
             startActivity(secondActivityIntent)
         }
+        check = this.isTaskRoot
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -71,5 +73,8 @@ class FirstActivity : AppCompatActivity() {
     override fun onDestroy() {
         super.onDestroy()
         println("FirstActivity::onDestroy()")
+    }
+    open fun check(): Boolean {
+        return check
     }
 }

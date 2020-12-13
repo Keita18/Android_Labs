@@ -21,7 +21,6 @@ class SecondActivity: AppCompatActivity() {
 
         println("SecondActivity::onCreate()")
 
-
         binding.activitySecondToFirstBtn.setOnClickListener { finish() }
         binding.activitySecondToThirdBtn.setOnClickListener {
 

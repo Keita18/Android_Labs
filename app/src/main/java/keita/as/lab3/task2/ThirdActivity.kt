@@ -11,6 +11,7 @@ import keita.`as`.lab3.R
 import keita.`as`.lab3.databinding.ActivityThirdBinding
 
 class ThirdActivity: AppCompatActivity() {
+
     private lateinit var binding: ActivityThirdBinding
     var BACK_TO_FIRST = false
     val EXTRA_BACK_TO_FIRST = "EXTRA_BACK_TO_FIRST"
