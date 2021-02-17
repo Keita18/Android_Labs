@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Continue Watch</string>
+    <string name="over">Game Over</string>
+    <string name="canceled">Cancel</string>
+</resources>
